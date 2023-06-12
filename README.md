@@ -1,4 +1,6 @@
 # Battleships
+## Requirements
+* .NET 6.0
 
 ## How to run project (dotnet CLI)
 ```powershell
@@ -19,7 +21,7 @@ Commands:
 dotnet test
 ```
 
-# Dependencies
+## Dependencies
 * System.CommandLine
 * Verify.Nunit
 * Nunit
