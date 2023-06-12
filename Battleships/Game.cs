@@ -12,33 +12,33 @@ internal record ShipType(int Length)
 
 internal record Coord(int X, int Y);
 
-internal record Ship(ImmutableHashSet<Coord> Fields);
+internal record Ship(ImmutableHashSet<Coord> Coords);
 
 internal class Game
 {
-    private readonly HashSet<Coord> Log;
+    private readonly HashSet<Coord> ShotsHistory;
     private readonly ImmutableList<Ship> Ships;
 
     public Game(ImmutableList<Ship> ships)
     {
         Ships = ships;
-        Log = new HashSet<Coord>();
+        ShotsHistory = new HashSet<Coord>();
     }
 
     public ShotResult Shot(Coord coord)
     {
-        if (Log.Contains(coord))
+        if (ShotsHistory.Contains(coord))
             return DuplicatedShot;
 
-        Log.Add(coord);
+        ShotsHistory.Add(coord);
 
-        if (!Ships.Any(x => x.Fields.Contains(coord)))
+        if (!Ships.Any(x => x.Coords.Contains(coord)))
             return Miss;
 
-        if (!Ships.SelectMany(field => field.Fields).Except(Log).Any())
+        if (!Ships.SelectMany(ship => ship.Coords).Except(ShotsHistory).Any())
             return GameOver;
 
-        if (Ships.First(x => x.Fields.Contains(coord)).Fields.Except(Log).Any())
+        if (Ships.First(ship => ship.Coords.Contains(coord)).Coords.Except(ShotsHistory).Any())
             return Hit;
 
         return Sink;
@@ -64,15 +64,15 @@ internal class Game
                 var coord = new Coord(x, y);
                 if (showShips)
                 {
-                    builder.Append(Ships.SelectMany(ship => ship.Fields).Contains(coord) switch
+                    builder.Append(Ships.SelectMany(ship => ship.Coords).Contains(coord) switch
                     {
                         true => "S",
                         false => "_"
                     });
                 }
-                else if (Log.Contains(coord) && Ships.SelectMany(x => x.Fields).Contains(coord))
+                else if (ShotsHistory.Contains(coord) && Ships.SelectMany(ship => ship.Coords).Contains(coord))
                     builder.Append("H"); // Hit
-                else if (Log.Contains(coord))
+                else if (ShotsHistory.Contains(coord))
                     builder.Append("M"); // Miss
                 else
                     builder.Append("?"); // Unknown

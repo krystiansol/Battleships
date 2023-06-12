@@ -1,6 +1,6 @@
 ﻿[
   {
-    Fields: [
+    Coords: [
       {
         X: 6,
         Y: 4
@@ -24,7 +24,7 @@
     ]
   },
   {
-    Fields: [
+    Coords: [
       {
         X: 5
       },
@@ -47,7 +47,7 @@
     ]
   },
   {
-    Fields: [
+    Coords: [
       {
         X: 9,
         Y: 2

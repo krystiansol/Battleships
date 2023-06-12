@@ -21,12 +21,11 @@ Commands:
 dotnet test
 ```
 
+## Debt
+* hardcoded map size in CLI
+
 ## Dependencies
 * System.CommandLine
 * Verify.Nunit
 * Nunit
 * FluentAssertions
-
-
-
-
