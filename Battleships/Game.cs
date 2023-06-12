@@ -73,7 +73,7 @@ internal class Game
         return builder.ToString();
     }
 
-    public string StandardMapFormat(Coord coord)
+    private string StandardMapFormat(Coord coord)
     {
         if (ShotsHistory.Contains(coord) && Ships.SelectMany(ship => ship.Coords).Contains(coord))
             return "H"; // Hit
@@ -83,7 +83,7 @@ internal class Game
             return "?"; // Unknown
     }
 
-    public string ShowShipFormat(Coord coord) =>
+    private string ShowShipFormat(Coord coord) =>
                 Ships.SelectMany(ship => ship.Coords).Contains(coord) switch
                 {
                     true => "S",
