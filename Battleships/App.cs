@@ -2,7 +2,7 @@
 
 internal class App
 {
-    private Game CurrentGame;
+    private Game? CurrentGame;
     private GameFactory Factory;
 
     public App(GameFactory factory) => Factory = factory;
@@ -68,7 +68,7 @@ internal class App
 
         shot.SetHandler((column, row) =>
         {
-            var result = CurrentGame.Shot(new Coord(column[0] - 'A', row - 1));
+            var result = CurrentGame!.Shot(new Coord(column[0] - 'A', row - 1));
             Console.WriteLine(result);
             Console.WriteLine(CurrentGame.ToString(false));
             if (result is Game.ShotResult.GameOver)
@@ -85,7 +85,7 @@ internal class App
         var map = new Command("map", "display map - \"map\", \"map show-ships\"");
         var showShipsArg = new Option<bool>("show-ships");
         map.AddOption(showShipsArg);
-        map.SetHandler((showShips) => Console.WriteLine(CurrentGame.ToString(showShips)), showShipsArg);
+        map.SetHandler((showShips) => Console.WriteLine(CurrentGame!.ToString(showShips)), showShipsArg);
         return map;
     }
 

@@ -34,6 +34,7 @@ internal class GameFactory
                                {
                                    Direction.X => new Coord(shipStartField.X + index, shipStartField.Y),
                                    Direction.Y => new Coord(shipStartField.X, shipStartField.Y + index),
+                                   _ => throw new InvalidOperationException()
                                }).ToImmutableList();
 
                            if (ships.SelectMany(x => x.Fields).Intersect(allShipFields).Any())
@@ -47,7 +48,8 @@ internal class GameFactory
     private Direction NextDirection() => _random.Next(0, 2) switch
     {
         0 => Direction.Y,
-        1 => Direction.X
+        1 => Direction.X,
+        _ => throw new InvalidOperationException()
     };
 
     private enum Direction
