@@ -4,6 +4,7 @@ internal class App
 {
     private Game? CurrentGame;
     private GameFactory Factory;
+    private static int ExitStatusCode = 2; // 0, 1 are used by System.CommandLine
 
     public App(GameFactory factory) => Factory = factory;
 
@@ -24,7 +25,7 @@ internal class App
         do
         {
             Console.Write("Battleship>");
-        } while (new[] { 0, 1 }.Contains(await rootCommand.InvokeAsync((Console.ReadLine() ?? string.Empty).Split(" "))));
+        } while (await rootCommand.InvokeAsync((Console.ReadLine() ?? string.Empty).Split(" ")) != ExitStatusCode);
     }
 
     private Command StartNewGame()
@@ -41,7 +42,7 @@ internal class App
     private Command Exit()
     {
         var exit = new Command("exit", "exit");
-        exit.SetHandler(() => Task.FromResult(2));
+        exit.SetHandler(() => Task.FromResult(ExitStatusCode));
         return exit;
     }
 

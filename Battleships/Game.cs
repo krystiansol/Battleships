@@ -55,31 +55,38 @@ internal class Game
 
     public string ToString(bool showShips)
     {
+        var formatter = showShips ? 
+            new Func<Coord, string>(ShowShipFormat) : 
+            new Func<Coord, string>(StandardMapFormat);
+
         StringBuilder builder = new();
 
         foreach (var y in Enumerable.Range(0, 10))
         {
             foreach (var x in Enumerable.Range(0, 10))
             {
-                var coord = new Coord(x, y);
-                if (showShips)
-                {
-                    builder.Append(Ships.SelectMany(ship => ship.Coords).Contains(coord) switch
-                    {
-                        true => "S",
-                        false => "_"
-                    });
-                }
-                else if (ShotsHistory.Contains(coord) && Ships.SelectMany(ship => ship.Coords).Contains(coord))
-                    builder.Append("H"); // Hit
-                else if (ShotsHistory.Contains(coord))
-                    builder.Append("M"); // Miss
-                else
-                    builder.Append("?"); // Unknown
+                builder.Append(formatter(new Coord(x, y)));
             }
             builder.AppendLine();
         }
 
         return builder.ToString();
     }
+
+    public string StandardMapFormat(Coord coord)
+    {
+        if (ShotsHistory.Contains(coord) && Ships.SelectMany(ship => ship.Coords).Contains(coord))
+            return "H"; // Hit
+        else if (ShotsHistory.Contains(coord))
+            return "M"; // Miss
+        else
+            return "?"; // Unknown
+    }
+
+    public string ShowShipFormat(Coord coord) =>
+                Ships.SelectMany(ship => ship.Coords).Contains(coord) switch
+                {
+                    true => "S",
+                    false => "_"
+                };
 }
