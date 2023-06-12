@@ -20,6 +20,7 @@ internal class App
         };
 
         await rootCommand.InvokeAsync("--help");
+        await rootCommand.InvokeAsync("map");
         do
         {
             Console.Write("Battleship>");
@@ -74,7 +75,7 @@ internal class App
             if (result is Game.ShotResult.GameOver)
             {
                 CurrentGame = Factory.Generate();
-                Console.WriteLine("new game started!");
+                Console.WriteLine("New game started!");
             }
         }, columnArg, rowArg);
         return shot;

@@ -32,7 +32,7 @@ internal class Game
 
         Log.Add(coord);
 
-        if (Ships.FirstOrDefault(x => x.Fields.Contains(coord)) == default)
+        if (!Ships.Any(x => x.Fields.Contains(coord)))
             return Miss;
 
         if (!Ships.SelectMany(field => field.Fields).Except(Log).Any())
@@ -71,11 +71,11 @@ internal class Game
                     });
                 }
                 else if (Log.Contains(coord) && Ships.SelectMany(x => x.Fields).Contains(coord))
-                    builder.Append("H");
+                    builder.Append("H"); // Hit
                 else if (Log.Contains(coord))
-                    builder.Append("M");
+                    builder.Append("M"); // Miss
                 else
-                    builder.Append("?");
+                    builder.Append("?"); // Unknown
             }
             builder.AppendLine();
         }
